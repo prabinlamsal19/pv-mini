@@ -11,47 +11,38 @@ services:
     volumes:
       - ./apps/nginx-app/nginx.conf:/etc/nginx/nginx.conf
 
-  node-db:
-    image: postgres:15.3
-    restart: always
-    container_name: node-db
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    command: -p ${DB_PORT}
-    ports:
-      - ${DB_MAP_PORT}:${DB_PORT}
-    env_file:
-      - .env
-    volumes:
-      - node-db:/var/lib/postgresql/data
-      - ./scripts/init-database.sh:/docker-entrypoint-initdb.d/init-database.sh
   node-app:
     build:
       context: ./apps/node-app
       dockerfile: Dockerfile
     ports:
       - "3007:3000"
+    depends_on:
+      - db-node
     volumes:
       - ./apps/node-app:/app
       - /app/node_modules
       - ~/.config/nvim:/root/.config/nvim
     environment:
       - NODE_ENV=development
+
   db-node:
     image: postgres:15
     environment:
-      POSTGRES_USER: nodeUser
-      POSTGRES_PASSWORD: nodePassword
+      POSTGRES_USER: ${POSTGRES_USER_NODE}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_NODE}
       POSTGRES_DB: nodeDatabase
     ports:
-      - "5432:5432"
+      - ${HOST_DB_PORT_NODE}:${CONTAINER_DB_PORT_NODE}
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-data-node:/var/lib/postgresql/data
 
   nest-app:
     build:
       context: ./apps/nest-app
       dockerfile: Dockerfile
+    depends_on:
+      - db-nest
     ports:
       - "3006:3000"
     volumes:
@@ -63,10 +54,14 @@ services:
   db-nest:
     image: postgres:15
     environment:
-      POSTGRES_USER: nestUser
-      POSTGRES_PASSWORD: nestPassword
+      POSTGRES_USER: ${POSTGRES_USER_NEST}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_NEST}
       POSTGRES_DB: nestDatabase
     ports:
-      - "5433:5432" #host: container
+      - ${HOST_DB_PORT_NEST}:${CONTAINER_DB_PORT_NEST} #host: container
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-data-nest:/var/lib/postgresql/data
+
+volumes:
+  postgres-data-node:
+  postgres-data-nest:
