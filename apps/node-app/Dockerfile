@@ -6,6 +6,7 @@ RUN  apk add neovim
 
 WORKDIR /app
 COPY package*.json ./
+RUN npm install -g tsx
 RUN npm install
 COPY . .
 EXPOSE 3000

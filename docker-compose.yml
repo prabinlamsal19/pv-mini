@@ -24,7 +24,10 @@ services:
       - /app/node_modules
       - ~/.config/nvim:/root/.config/nvim
     environment:
-      - NODE_ENV=development
+      NODE_ENV: development
+      POSTGRES_USER: ${POSTGRES_USER_NODE}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_NODE}
+      POSTGRES_DB: nodeDatabase
 
   db-node:
     image: postgres:15
