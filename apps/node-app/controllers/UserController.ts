@@ -9,19 +9,21 @@ export class UserController {
       const { name, email } = req.body;
 
       if (!name || !email) {
-        return res.status(400).json({ message: "Name and email are required" });
+        res.status(400).json({ message: "Name and email are required" });
+        return
       }
 
       const newUser = new User();
       newUser.name = name;
       newUser.email = email;
 
-      const savedUser = UserSevice.createUser(newUser);
+      const savedUser = await UserSevice.createUser(newUser);
+      //service
 
-      return res.status(201).json(savedUser);
+      res.status(201).json(savedUser);
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ message: "Internal server error" });
+      res.status(500).json({ message: "Internal server error" });
     }
   }
 }
