@@ -16,17 +16,7 @@ app.listen(PORT, () => {
 
 createConnection().then(async connection => {
   console.log("Connected to the database!");
-
   const userRepository = connection.getRepository(User);
 
-  // Create a new user
-  const user = new User();
-  user.name = "John Doe";
-  user.email = "john.doe@example.com";
-
-  // Save the user to the database
-  await userRepository.save(user);
-
-  console.log("User has been saved:", user);
 
 }).catch(error => console.log(error));
