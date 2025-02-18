@@ -11,4 +11,13 @@ static async createUser(user: User) {
 
     console.log("User has been saved:", user);
 }
+
+static async findUserByName(name : string) { 
+
+    const userRepository = getRepository(User);
+
+    const savedUser = await userRepository.findOneBy({name});
+
+    console.log("User has been obtained:", savedUser);
+}
 }

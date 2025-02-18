@@ -18,9 +18,24 @@ export class UserController {
       newUser.email = email;
 
       const savedUser = await UserSevice.createUser(newUser);
-      //service
-
       res.status(201).json(savedUser);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
+  static async getUser(req: Request, res: Response) {
+    try {
+      const { name } = req.body;
+
+      if (!name) {
+        res.status(400).json({ message: "Name and email are required" });
+        return
+      }
+
+      const userByName= await UserSevice.findUserByName(name);
+      res.status(201).json(userByName);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal server error" });

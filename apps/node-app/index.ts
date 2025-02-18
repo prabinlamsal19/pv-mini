@@ -3,6 +3,7 @@ import "reflect-metadata";
 import { createConnection } from "typeorm";
 import { User } from "./entities/User";
 import userRouter from './routes/user_routes';
+
 const app = express();
 app.use('path', userRouter);
 
@@ -18,6 +19,4 @@ app.listen(PORT, () => {
 createConnection().then(async connection => {
   console.log("Connected to the database!");
   const userRepository = connection.getRepository(User);
-
-
 }).catch(error => console.log(error));
