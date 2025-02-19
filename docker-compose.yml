@@ -28,6 +28,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER_NODE}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_NODE}
       POSTGRES_DB: nodeDatabase
+      DB_PORT: ${CONTAINER_DB_PORT_NODE}
+      DB_HOST: db-node
 
   db-node:
     image: postgres:15

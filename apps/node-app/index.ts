@@ -1,22 +1,27 @@
-import express, {Request, Response} from 'express';
 import "reflect-metadata";
-import { createConnection } from "typeorm";
-import { User } from "./entities/User";
-import userRouter from './routes/user_routes';
+import express, { Request, Response } from "express";
+import userRouter from "./routes/user_routes";
+import { AppDataSource } from "./data-source";
 
 const app = express();
-app.use('path', userRouter);
 
-app.get('/', (req, res) => {
+app.use(express.json()); // Ensure request body can be parsed
+
+app.get("/", (req, res) => {
   res.send(`Welcome to the DOLBY Backend, the source of truth in Picovico system?`);
 });
 
-const PORT = 3000;
+app.use("/users", userRouter);
+
+const PORT = 3009;
 app.listen(PORT, () => {
-  console.log(`Server is running on port number ${PORT}`)
+  console.log(`Server is running on port number ${PORT}`);
 });
 
-createConnection().then(async connection => {
-  console.log("Connected to the database!");
-  const userRepository = connection.getRepository(User);
-}).catch(error => console.log(error));
+AppDataSource.initialize()
+  .then(() => {
+    console.log("Database connected");
+  })
+  .catch((error) => {
+    console.log("Database connection error:", error);
+  });

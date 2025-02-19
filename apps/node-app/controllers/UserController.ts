@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { User } from "../entities/User";
-import { UserSevice } from "../services/user_service";
+import { UserService } from "../services/user_service";
 
 export class UserController {
   static async createUser(req: Request, res: Response) {
@@ -10,14 +10,14 @@ export class UserController {
 
       if (!name || !email) {
         res.status(400).json({ message: "Name and email are required" });
-        return
+        return;
       }
 
       const newUser = new User();
       newUser.name = name;
       newUser.email = email;
 
-      const savedUser = await UserSevice.createUser(newUser);
+      const savedUser = await UserService.createUser(newUser);
       res.status(201).json(savedUser);
     } catch (error) {
       console.error(error);
@@ -31,10 +31,10 @@ export class UserController {
 
       if (!name) {
         res.status(400).json({ message: "Name and email are required" });
-        return
+        return;
       }
 
-      const userByName= await UserSevice.findUserByName(name);
+      const userByName = await UserService.findUserByName(name);
       res.status(201).json(userByName);
     } catch (error) {
       console.error(error);
