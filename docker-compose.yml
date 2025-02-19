@@ -48,11 +48,16 @@ services:
       - db-nest
     ports:
       - "3006:3000"
+
     volumes:
       - ./apps/nest-app:/app
       - /app/node_modules
     environment:
       NODE_ENV: development
+      POSTGRES_USER: ${POSTGRES_USER_NEST}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_NEST}
+      POSTGRES_DB: nestDatabase
+      DB_PORT: ${CONTAINER_DB_PORT_NEST}
 
   db-nest:
     image: postgres:15
