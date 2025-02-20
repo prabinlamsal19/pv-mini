@@ -1,5 +1,5 @@
 import { getRepository } from "typeorm";
-import { User } from "../entities/User";
+import { User } from "../entities/user";
 
 export class UserService {
   static async createUser(user: User) {

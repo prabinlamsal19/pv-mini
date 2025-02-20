@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import express, { Request, Response } from "express";
-import userRouter from "./routes/user_routes";
+import { userRouter } from "./routes/user_routes";
 import { AppDataSource } from "./data-source";
 
 const app = express();
@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
 
 app.use("/users", userRouter);
 
-const PORT = 3009;
+const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port number ${PORT}`);
 });
