@@ -2,10 +2,12 @@ import "reflect-metadata";
 import express, { Request, Response } from "express";
 import { userRouter } from "./routes/user_routes";
 import { AppDataSource } from "./data-source";
+import cors from "cors";
 
 const app = express();
 
-app.use(express.json()); // Ensure request body can be parsed
+app.use(express.json());
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send(`Welcome to the DOLBY Backend, the source of truth in Picovico system?`);
