@@ -1,9 +1,12 @@
+import { DolbyService } from "./../services/dolby_service";
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { User } from "../entities/user";
 import { UserService } from "../services/user_service";
+import { DolbyEndpoints } from "../dolby_endpoints";
 
 export class UserController {
+  static dolby = DolbyService;
   static async createUser(req: Request, res: Response) {
     try {
       const { name, email } = req.body;
@@ -17,6 +20,12 @@ export class UserController {
       newUser.name = name;
       newUser.email = email;
 
+      try {
+        await DolbyService.post(DolbyEndpoints.createUser, newUser);
+      } catch (e) {
+        console.log((e as Error).message);
+        return;
+      }
       const savedUser = await UserService.createUser(newUser);
       res.status(201).json(savedUser);
     } catch (error) {
