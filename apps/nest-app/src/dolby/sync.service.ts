@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 
 @Injectable()
-export class DolbyService {
+export class SyncService {
   private readonly baseUrl = 'http://node-app:4000';
 
   async get<T = any>(endpoint: string): Promise<T> {

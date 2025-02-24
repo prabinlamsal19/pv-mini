@@ -3,8 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DolbyModule } from './dolby/dolby.module';
-import { DolbyService } from './dolby/dolby.service';
+import { SyncModule } from './dolby/sync.module';
+import { SyncService } from './dolby/sync.service';
 
 @Module({
   imports: [
@@ -19,19 +19,19 @@ import { DolbyService } from './dolby/dolby.service';
       synchronize: true,
     }),
     UserModule,
-    DolbyModule,
+    SyncModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
     {
-      provide: 'DolbyService',
-      useClass: DolbyService,
+      provide: 'SyncModule',
+      useClass: SyncService,
     },
   ],
   exports: ['DolbyService'],
 })
 export class AppModule {}
 
-//They said, we don't need to do anything for providing and using DolbyService.
+//They said, we don't need to do anything for providing and using SyncService, since its module is global.
 //Remove the code if not useful
