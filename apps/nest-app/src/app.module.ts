@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DolbyModule } from './dolby/dolby.module';
+import { DolbyService } from './dolby/dolby.service';
 
 @Module({
   imports: [
@@ -21,6 +22,16 @@ import { DolbyModule } from './dolby/dolby.module';
     DolbyModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: 'DolbyService',
+      useClass: DolbyService,
+    },
+  ],
+  exports: ['DolbyService'],
 })
 export class AppModule {}
+
+//They said, we don't need to do anything for providing and using DolbyService.
+//Remove the code if not useful
