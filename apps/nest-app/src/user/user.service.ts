@@ -19,5 +19,3 @@ export class UserService {
     return this.userRepository.findOneBy({ name });
   }
 }
-
-// OK. By default typeorm are realy bullish about Promises.
